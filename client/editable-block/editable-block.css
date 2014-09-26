@@ -1,0 +1,4 @@
+.content-area.editable {
+  outline: 2px solid rgba(134, 0, 0, .96);
+  min-height: 20px;
+}

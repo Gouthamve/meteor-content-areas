@@ -48,6 +48,16 @@ EditableArea.prototype.reset = function EditableArea_reset() {
   Meteor.call('EditableArea/Remove', self.name);
 };
 
+EditableArea.prototype.getAllowedTemplates = function EditableArea_getAllowedTemplates() {
+  var self = this;
+  return self.allowedTemplates.get();
+};
+
+EditableArea.prototype.setAllowedTemplates = function EditableArea_setAllowedTemplates(templates) {
+  var self = this;
+  self.allowedTemplates.set(templates);
+};
+
 Template.editableArea.helpers({
   templateList: function () {
     var self = this;
@@ -62,6 +72,53 @@ Template.editableArea.helpers({
       return localTemplateList;
     } else {
       return area.getTemplates();
+    }
+  },
+  allowedAndNotPresentTemplateList: function () {
+    var self = this;
+    return getMissingTemplatesForArea(self.name);
+  },
+  canAddTemplates: function () {
+    var self = this;
+    var t = getMissingTemplatesForArea(self.name) || [];
+    return !!t.length;
+  }
+});
+
+Template.editableArea.events({
+  'change select.pe-editable-area-add-template': function (event, template) {
+    var areaName = template.data.name;
+    var area = areaLookup[areaName];
+
+    if (!area) {
+      throw new Error('No EditableArea instance has been defined with the name "' + areaName + '"');
+    }
+
+    var templateName = $(event.target).val();
+    if (typeof templateName === "string" && templateName.length > 0) {
+      var localTemplateList = temporaryAreaTemplates[areaName].get();
+      if (localTemplateList) {
+        localTemplateList.push(templateName);
+        temporaryAreaTemplates[areaName].set(localTemplateList);
+        $(event.target).val(''); //clear select
+      }
+    }
+  },
+  'click button.pe-editable-area-remove-template': function (event, template) {
+    var areaName = template.data.name;
+    var area = areaLookup[areaName];
+
+    if (!area) {
+      throw new Error('No EditableArea instance has been defined with the name "' + areaName + '"');
+    }
+
+    var templateName = $(event.target).attr('data-template-name');
+    if (typeof templateName === "string" && templateName.length > 0) {
+      var localTemplateList = temporaryAreaTemplates[areaName].get();
+      if (localTemplateList) {
+        localTemplateList = _.without(localTemplateList, templateName);
+        temporaryAreaTemplates[areaName].set(localTemplateList);
+      }
     }
   }
 });
@@ -182,4 +239,23 @@ function getTemplateListForAreaElement(areaElement) {
   return $(areaElement).find('.pe-editable-area-template').map(function () {
     return $(this).attr('data-template-name');
   }).get();
+}
+
+function getMissingTemplatesForArea(areaName) {
+  var area = areaLookup[areaName];
+
+  if (!area) {
+    throw new Error('No EditableArea instance has been defined with the name "' + areaName + '"');
+  }
+
+  // allowed templates
+  var allowedTemplates = area.getAllowedTemplates();
+
+  // present templates
+  var presentTemplates = temporaryAreaTemplates[areaName].get();
+  if (!presentTemplates) {
+    presentTemplates = area.getTemplates();
+  }
+
+  return _.difference(allowedTemplates, presentTemplates);
 }

@@ -3,3 +3,26 @@
   min-height: 20px;
   cursor: move;
 }
+
+.pe-editable-area-template {
+  position: relative;
+}
+
+.pe-editable-area-add-template {
+  width: 100%;
+  margin: 10px 0;
+}
+
+button.pe-editable-area-remove-template {
+  border-radius: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: verdana, sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #333;
+  border: 0;
+  padding: 2px 4px;
+}

@@ -6,11 +6,11 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('METEOR@0.9.3');
+  api.versionsFrom('METEOR@1.1');
   api.use('jquery', 'client');
   api.use('templating', 'client');
   api.use('blaze', 'client');
-  api.use('showdown@1.0.1', 'client');
+  api.use('markdown@1.0.4', 'client');
   api.use('reactive-var@1.0.1', 'client');
   api.use('check');
   api.export('EditableBlocks');

@@ -126,7 +126,8 @@ As you can see, the "content blocks" that are shown within an editable area are 
 
 Use CSS to style. The relevant selectors are
 
-* .pe-editable-area.editable
+* .pe-editable-area.editable  (for editable areas)
+* .content-area.editable  (for editable block)
 * select.pe-editable-area-add-template
 * button.pe-editable-area-remove-template
 

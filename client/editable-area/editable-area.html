@@ -1,22 +1,22 @@
 <template name="editableArea">
   <div class="pe-editable-area {{#if PageEdit.isActive}}editable{{/if}}" data-area-name="{{this.name}}">
   {{#each templateList}}
-  <div class="pe-editable-area-template" data-template-name="{{this}}">
-  {{#if PageEdit.isActive}}
-  <button class="pe-editable-area-remove-template" data-template-name="{{this}}">Remove</button>
-  {{/if}}
-  {{> UI.dynamic template=this}}
-  </div>
+    <div class="pe-editable-area-template" data-template-name="{{this}}">
+    {{#if PageEdit.isActive}}
+      <button class="pe-editable-area-remove-template" data-template-name="{{this}}">Remove</button>
+    {{/if}}
+    {{> UI.dynamic template=this}}
+    </div>
   {{/each}}
   {{#if PageEdit.isActive}}
-  {{#if canAddTemplates}}
-  <select class="pe-editable-area-add-template">
-    <option value="">Add a Template Here</option>
-    {{#each allowedAndNotPresentTemplateList}}
-    <option value="{{this}}">{{this}}</option>
-    {{/each}}
-  </select>
-  {{/if}}
+    {{#if canAddTemplates}}
+      <select class="pe-editable-area-add-template">
+        <option value="">Add a Template Here</option>
+        {{#each allowedAndNotPresentTemplateList}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+    </select>
+    {{/if}}
   {{/if}}
   </div>
 </template>

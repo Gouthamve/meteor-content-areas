@@ -1,31 +1,31 @@
 <template name="editableBlock">
 {{#if isEditing}}
-{{> editableBlockEditor id=this.id cb=UI.contentBlock}}
+  {{> editableBlockEditor id=this.id cb=UI.contentBlock}}
 {{else}}
-<div class="content-area {{#if PageEdit.isActive}}editable{{/if}}">
-{{#markdown}}
-{{#if localContentExists}}
-{{localContent}}
-{{else}}
-{{#if savedContentExists}}
-{{savedContent}}
-{{else}}
-{{> UI.contentBlock}}
-{{/if}}
-{{/if}}
-{{/markdown}}
+  <div class="content-area {{#if PageEdit.isActive}}editable{{/if}}">
+  {{#markdown}}
+    {{#if localContentExists}}
+      {{localContent}}
+    {{else}}
+      {{#if savedContentExists}}
+        {{savedContent}}
+      {{else}}
+        {{> UI.contentBlock}}
+      {{/if}}
+    {{/if}}
+  {{/markdown}}
 </div>
 {{/if}}
 </template>
 
 <template name="editableBlockEditor">
 {{#if localContentExists}}
-<textarea class="content-area-editor">{{localContent}}</textarea>
+  <textarea class="content-area-editor">{{localContent}}</textarea>
 {{else}}
-{{#if savedContentExists}}
-<textarea class="content-area-editor">{{savedContent}}</textarea>
-{{else}}
-<textarea class="content-area-editor">{{> cb}}</textarea>
-{{/if}}
+  {{#if savedContentExists}}
+    <textarea class="content-area-editor">{{savedContent}}</textarea>
+  {{else}}
+    <textarea class="content-area-editor">{{> cb}}</textarea>
+  {{/if}}
 {{/if}}
 </template>
